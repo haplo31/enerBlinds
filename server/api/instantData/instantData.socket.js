@@ -4,22 +4,21 @@
 
 'use strict';
 
-var Powerdata = require('./powerdata.model');
+var InstantData = require('./instantData.model');
 
 exports.register = function(socket) {
-	
-  Powerdata.schema.post('save', function (doc) {
+  InstantData.schema.post('save', function (doc) {
     onSave(socket, doc);
   });
-  Powerdata.schema.post('remove', function (doc) {
+  InstantData.schema.post('remove', function (doc) {
     onRemove(socket, doc);
   });
 }
 
 function onSave(socket, doc, cb) {
-  socket.emit('powerdata:save', doc);
+  socket.emit('instantData:save', doc);
 }
 
 function onRemove(socket, doc, cb) {
-  socket.emit('powerdata:remove', doc);
+  socket.emit('instantData:remove', doc);
 }

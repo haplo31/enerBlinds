@@ -1,3 +1,5 @@
+#include <Servo.h>
+
 
 int voltPin = 1;
 int ampPin = 2;
@@ -11,9 +13,8 @@ float power = 0;
 
 int onSwitch=3;
 int ampSwitch=4;
-
-String readString;
-
+int actualPos=0;
+String message;
 Servo servOrient;
 int orient = 0;
 void setup() {
@@ -23,25 +24,38 @@ void setup() {
   digitalWrite(onSwitch, HIGH);
   digitalWrite(ampSwitch, HIGH);
   servOrient.attach(9);
+  delay(500);
+  servOrient.write(0);
 }
-
+String inByte;
 void loop()
 {
-	 while (Serial.available()) {
-    delay(3);  
-    char c = Serial.read();
-    readString += c; 
-  }
-  readString.trim();
-  if (readString.length() >0) {
-    if (readString == "getPower"){
-      Serial.println("launch function");
+  if (Serial.available() > 0) {
+    // get incoming byte:
+    inByte = Serial.readString();
+    if (inByte=="RTM"){
+      //Serial.println("RTM: 15.10V 07.00A");
+      message="RTM: ";
+      getPower();    
+    }
+    else if( inByte=="APM"){
+      //Serial.println("APM: 15.10V 07.00A");
+      message="APM: ";
       getPower();
     }
-""
-    readString="";
-  } 
-  
+    else if( inByte=="LOP"){
+      getLocalOptimum();
+    }
+    else if( inByte=="BOP"){
+      getGlobalOptimum();
+    }
+    else if( inByte=="BUP"){
+      blindUp();
+    }
+    else if( inByte=="BDO"){
+      blindDown();
+    }
+  }  
 }
 
 void getPower(){
@@ -50,9 +64,9 @@ void getPower(){
         delay(2000);
 	Serial.println("Measure Voltage");
 	readVolts = analogRead(voltPin);
-	Serial.println(readVolts);
+	//Serial.println(readVolts);
 	voltageFactor = 1024 / maxVolts;
-  voltage = readVolts / voltageFactor;
+  	voltage = readVolts / voltageFactor;
 	Serial.print(voltage);
   Serial.println("V");
   if (voltage>0){
@@ -60,12 +74,24 @@ void getPower(){
         Serial.println("Measure Current");
   	digitalWrite(ampSwitch, LOW);
   	readAmps = analogRead(ampPin);
-  	current = readAmps;
-    power = voltage * current;
-    Serial.print(current);
-    Serial.println("mA");
-    Serial.print(power);
-    Serial.println("mW");    
+  	current = readAmps/1000;
+  	Serial.print(message);
+   	if (voltage<10){
+   		Serial.print("0");
+   		Serial.print(voltage,2);
+   	}
+   	else{
+   		Serial.print(voltage,2);
+   	}
+   	Serial.print("V ");
+   	if (current<10){
+   		Serial.print("0");
+   		Serial.print(current,2);
+   	}
+   	else{
+   		Serial.print(current,2);
+   	} 
+    Serial.println("A");   
     delay(500);
     digitalWrite(onSwitch, HIGH);
     digitalWrite(ampSwitch, HIGH);
@@ -77,12 +103,12 @@ void getPower(){
   } 
 }
 void getLocalOptimum(){
-	int actualPos=servOrient.read();
+	actualPos=servOrient.read();
 	int powerPlus, powerMoins;
 	bool notFind = true;
 	Serial.println("Testing proximity values...");
 	//Check actual position +10 degrees
-	servOrient.write(bestPos+10);
+	servOrient.write(actualPos+10);
 	delay(1000);
 	digitalWrite(onSwitch, LOW);
   delay(2000);
@@ -106,7 +132,7 @@ void getLocalOptimum(){
   }	
   powerPlus=power;
   //Check actual position -10 degrees
-  servOrient.write(bestPos-10);
+  servOrient.write(actualPos-10);
 	delay(1000);
 	digitalWrite(onSwitch, LOW);
   delay(2000);
@@ -249,4 +275,28 @@ void getGlobalOptimum(){
   Serial.print("Best angle: ");
   Serial.println(bestPos);
   servOrient.write(bestPos); 
+}
+void blindUp(){
+  actualPos=servOrient.read();
+  if(actualPos>=180){
+    Serial.println("Already in max pos");
+  }
+  else{
+      actualPos+=30;
+      servOrient.write(actualPos);
+      Serial.print("Set angle: ");
+      Serial.println(actualPos);
+  }
+
+}
+void blindDown(){
+  if(actualPos<=0){
+    Serial.println("Already in min pos");
+  }
+  else{
+      actualPos-=30;
+      servOrient.write(actualPos);
+      Serial.print("Set angle: ");
+      Serial.println(actualPos);
+  }
 }

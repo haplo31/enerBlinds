@@ -35,22 +35,45 @@ h2{
 table.center {
     margin-left:auto; 
     margin-right:auto;
-    width: 100%;
+    width: 1vw;
 }
 td{
 	width:33%;
 }
 td.full{
 	width:100%;
+  font-size: 1.6vh;
 }
 td.half{
 	width:50%;
+}
+td.morehalf{
+  width:30%;
 }
 .block-instant{
 	height: 100%;
 }
 .console{
 	background-color: black;
+  color:white;
+  text-align:center;
+  margin-top: 1%;
+  padding:2%;
+  font-size: 143%;
+
+}
+.tabconsole{
+  display:inline-block;
+  table-layout:fixed;
+  border-spacing: 5px;
+  border-collapse: separate;
+}
+.message{
+  /*border-top: solid 1px white;
+  border-bottom: solid 1px white;*/
+/*  max-height: 20px;
+  overflow: hidden;*/
+
 }
 .top-buffer { margin-top:5px; }
 .top-buffer-xl { margin-top:25px; }

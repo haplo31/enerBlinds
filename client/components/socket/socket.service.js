@@ -17,7 +17,7 @@ angular.module('solarWindowApp')
 
     return {
       socket: socket,
-
+      
       /**
        * Register listeners to sync an array with updates on a model
        *
@@ -28,6 +28,7 @@ angular.module('solarWindowApp')
        * @param {Array} array
        * @param {Function} cb
        */
+       
       syncUpdates: function (modelName, array, cb) {
         cb = cb || angular.noop;
 

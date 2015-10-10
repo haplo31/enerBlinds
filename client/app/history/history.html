@@ -1,15 +1,10 @@
-<div class="col-md-12">
-This is the history view.
-<!--<ul class="nav nav-tabs nav-stacked col-md-4 col-lg-4 col-sm-6" ng-repeat="data in SolarDatas">
-        <li><a href="#" tooltip="{{data.date}">{{data}}<button type="button" class="close">&times;</button></a></li>
-      </ul>-->
-</div>
-Volts:
+<div ng-include="'components/navbar/navbar.html'"></div>
+<!-- Volts:
 <input type="text" ng-model="dataSend.volt" />
 Amp:
 <input type="text" ng-model="dataSend.amp" />
 <button ng-click="addData(dataSend)">Add</button>
-<button ng-click="addAll()">Add All</button>
+<button ng-click="addAll()">Add All</button> -->
 <div class="container">
 <canvas id="line" class="chart chart-line" chart-data="data"
   chart-labels="labels" chart-legend="true" chart-series="series"
