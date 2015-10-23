@@ -42,7 +42,7 @@ server.listen(config.port, config.ip, function () {
 //Start Serial
 var sp=require("serialport")
 var SerialPort = sp.SerialPort
-var serialPort = new SerialPort("/dev/ttyUSB1", {
+var serialPort = new SerialPort("/dev/ttyUSB0", {
 	baudrate: 9600,
 	parser: sp.parsers.readline("\n")
 });
@@ -59,7 +59,7 @@ serialPort.on("open", function () {
   //     }, 3000);
 	serialPort.on('data', function(data) {
 		console.log(data)
-		if (data.indexOf('APM:')==0){
+		if (data.indexOf('APM:')===0){
 			//APM: 12.00V 07.00A
 			var receivedVolt=data.substring(data.indexOf('V')-5,data.indexOf('V'))
 			var receivedAmp=data.substring(data.lastIndexOf('A')-4,data.lastIndexOf('A'))

@@ -22,7 +22,7 @@ var serialPort=require('./../../app.js').serialPort
 var RTMLoop=null;
 var RTMActive=0;
 function startRTMLoop(req,res){
-	if (RTMActive==0){
+	if (RTMActive===0){
 		RTMActive=1;
 		clearInterval(RTMLoop)
 		console.log("RTM Started")
@@ -43,7 +43,7 @@ function startRTMLoop(req,res){
 	}
 }
 function stopRTMLoop(req,res){
-	if(RTMActive==1){
+	if(RTMActive===1){
 		console.log("RTM stopped")
 		clearInterval(RTMLoop)
 		InstantData.create({date:new Date(),message:"RTM stopped. "}, function(err, instantData) {});
