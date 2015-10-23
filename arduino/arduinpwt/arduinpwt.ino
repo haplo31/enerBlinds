@@ -61,20 +61,22 @@ void loop()
 void getPower(){
 	Serial.println("Activating...");
 	digitalWrite(onSwitch, LOW);
-        delay(2000);
+  delay(2000);
 	Serial.println("Measure Voltage");
-	readVolts = analogRead(voltPin);
-	//Serial.println(readVolts);
+
+	/*readVolts = analogRead(voltPin);
 	voltageFactor = 1024 / maxVolts;
-  	voltage = readVolts / voltageFactor;
+  voltage = readVolts / voltageFactor;*/
+  voltage = random(15,25);
 	Serial.print(voltage);
   Serial.println("V");
   if (voltage>0){
-        delay(2000);
-        Serial.println("Measure Current");
+    delay(2000);
+    Serial.println("Measure Current");
   	digitalWrite(ampSwitch, LOW);
-  	readAmps = analogRead(ampPin);
-  	current = readAmps/1000;
+  	/*readAmps = analogRead(ampPin);
+  	current = readAmps/1000;*/
+    current = random(1,4);
   	Serial.print(message);
    	if (voltage<10){
    		Serial.print("0");
@@ -112,14 +114,16 @@ void getLocalOptimum(){
 	delay(1000);
 	digitalWrite(onSwitch, LOW);
   delay(2000);
-	readVolts = analogRead(voltPin);
+	/*readVolts = analogRead(voltPin);
 	voltageFactor = 1024 / maxVolts;
-  voltage = readVolts / voltageFactor;
+  voltage = readVolts / voltageFactor;*/
+  voltage = random(15,25);
   if (voltage>0){
     delay(2000);
   	digitalWrite(ampSwitch, LOW);
-  	readAmps = analogRead(ampPin);
-  	current = readAmps;
+  	/*readAmps = analogRead(ampPin);
+  	current = readAmps;*/
+    current = random(1,4);
     power = voltage * current;
     delay(500);
     digitalWrite(onSwitch, HIGH);
@@ -136,14 +140,16 @@ void getLocalOptimum(){
 	delay(1000);
 	digitalWrite(onSwitch, LOW);
   delay(2000);
-	readVolts = analogRead(voltPin);
+	/*readVolts = analogRead(voltPin);
 	voltageFactor = 1024 / maxVolts;
-  voltage = readVolts / voltageFactor;
+  voltage = readVolts / voltageFactor;*/
+  voltage = random(15,25);
   if (voltage>0){
     delay(2000);
   	digitalWrite(ampSwitch, LOW);
-  	readAmps = analogRead(ampPin);
-  	current = readAmps;
+  	/*readAmps = analogRead(ampPin);
+  	current = readAmps;*/
+    current = random(1,4);
     power = voltage * current;
     delay(500);
     digitalWrite(onSwitch, HIGH);
@@ -165,14 +171,16 @@ void getLocalOptimum(){
 				delay(1000);
 				digitalWrite(onSwitch, LOW);
 			  delay(2000);
-				readVolts = analogRead(voltPin);
+				/*readVolts = analogRead(voltPin);
 				voltageFactor = 1024 / maxVolts;
-			  voltage = readVolts / voltageFactor;
+			  voltage = readVolts / voltageFactor;*/
+        voltage = random(15,25);
 			  if (voltage>0){
 			    delay(2000);
 			  	digitalWrite(ampSwitch, LOW);
-			  	readAmps = analogRead(ampPin);
-			  	current = readAmps;
+			  	/*readAmps = analogRead(ampPin);
+			  	current = readAmps;*/
+          current = random(1,4);
 			    power = voltage * current;
 			    delay(500);
 			    digitalWrite(onSwitch, HIGH);
@@ -204,14 +212,16 @@ void getLocalOptimum(){
 				delay(1000);
 				digitalWrite(onSwitch, LOW);
 			  delay(2000);
-				readVolts = analogRead(voltPin);
+				/*readVolts = analogRead(voltPin);
 				voltageFactor = 1024 / maxVolts;
-			  voltage = readVolts / voltageFactor;
+			  voltage = readVolts / voltageFactor;*/
+        voltage = random(15,25);
 			  if (voltage>0){
 			    delay(2000);
 			  	digitalWrite(ampSwitch, LOW);
-			  	readAmps = analogRead(ampPin);
-			  	current = readAmps;
+			  	/*readAmps = analogRead(ampPin);
+			  	current = readAmps;*/
+          current = random(1,4);
 			    power = voltage * current;
 			    delay(500);
 			    digitalWrite(onSwitch, HIGH);
@@ -245,14 +255,16 @@ void getGlobalOptimum(){
     delay(1000);
 		digitalWrite(onSwitch, LOW);
 	  delay(2000);
-		readVolts = analogRead(voltPin);
+		/*readVolts = analogRead(voltPin);
 		voltageFactor = 1024 / maxVolts;
-	  voltage = readVolts / voltageFactor;
+	  voltage = readVolts / voltageFactor;*/
+    voltage = random(15,25);
 	  if (voltage>0){
 	    delay(2000);
 	  	digitalWrite(ampSwitch, LOW);
-	  	readAmps = analogRead(ampPin);
-	  	current = readAmps;
+	  	/*readAmps = analogRead(ampPin);
+	  	current = readAmps;*/
+      current = random(1,4);
 	    power = voltage * current;
 	    Serial.print(current);
 	    Serial.print("mW on position ");
