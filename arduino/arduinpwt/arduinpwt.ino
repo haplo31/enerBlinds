@@ -46,7 +46,7 @@ void loop()
     else if( inByte=="LOP"){
       getLocalOptimum();
     }
-    else if( inByte=="BOP"){
+    else if( inByte=="GOP"){
       getGlobalOptimum();
     }
     else if( inByte=="BUP"){
