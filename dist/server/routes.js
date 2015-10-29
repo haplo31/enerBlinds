@@ -10,6 +10,8 @@ var path = require('path');
 module.exports = function(app) {
 
   // Insert routes below
+  app.use('/api/instantDatas', require('./api/instantData'));
+  app.use('/api/powerdatas', require('./api/powerdata'));
   app.use('/api/things', require('./api/thing'));
   
   // All undefined asset or api routes should return a 404

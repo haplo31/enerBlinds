@@ -249,7 +249,7 @@ void getLocalOptimum(){
 void getGlobalOptimum(){
 	int bestPos=0;
 	int powerBestPos=0;
-	for (int pos = 0; pos <= 180; pos += 15) { // goes from 0 degrees to 180 degrees
+	for (int pos = 0; pos <= 90; pos += 10) { // goes from 0 degrees to 180 degrees
     // in steps of 1 degree
     servOrient.write(pos);              // tell servo to go to position in variable 'pos'
     delay(1000);
@@ -266,9 +266,9 @@ void getGlobalOptimum(){
 	  	current = readAmps;*/
       current = random(1,4);
 	    power = voltage * current;
-	    Serial.print(current);
+	    Serial.print(power);
 	    Serial.print("mW on position ");
-			Serial.print(pos);
+			Serial.println(pos);
 	    delay(500);
 	    digitalWrite(onSwitch, HIGH);
 	    digitalWrite(ampSwitch, HIGH);
@@ -280,6 +280,7 @@ void getGlobalOptimum(){
 	  }
 	  if (power>powerBestPos){
 	  	bestPos=pos;
+      powerBestPos=power;
 	  	Serial.println("New best position find !");
 	  }
   }
