@@ -19,6 +19,7 @@ router.patch('/:id', controller.update);
 router.delete('/:id', controller.destroy);
 
 var serialPort=require('./../../app.js').serialPort
+var mainApp=require('./../../app.js')
 var RTMLoop=null;
 var RTMActive=0;
 function startRTMLoop(req,res){
@@ -28,7 +29,7 @@ function startRTMLoop(req,res){
 		console.log("RTM Started")
 		RTMLoop=setInterval(function() {
 			var serialPort=require('./../../app.js').serialPort
-			serialPort.write("RTM", function(err, results) {
+			mainApp.newCommandToSend("RTM", function(err, results) {
 				InstantData.create({date:new Date(),message:"RTM called. "}, function(err, instantData) {
 			  });
 			});
@@ -58,28 +59,28 @@ function stopRTMLoop(req,res){
 }
 function blindUp(req,res){
 	var serialPort=require('./../../app.js').serialPort
-	serialPort.write("BUP", function(err, results) {
+	mainApp.newCommandToSend("BUP", function(err, results) {
 		InstantData.create({date:new Date(),message:"Changing blind position.(UP) "}, function(err, instantData) {});
 		 return res.status(200).send('No Content');
 	});
 }
 function blindDown(req,res){
 	var serialPort=require('./../../app.js').serialPort
-	serialPort.write("BDO", function(err, results) {
+	mainApp.newCommandToSend("BDO", function(err, results) {
 		InstantData.create({date:new Date(),message:"Changing blind position.(DOWN) "}, function(err, instantData) {});
 		return res.status(200).send('No Content');
 	});
 }
 function locOpt(req,res){
 	var serialPort=require('./../../app.js').serialPort
-	serialPort.write("LOP", function(err, results) {
+	mainApp.newCommandToSend("LOP", function(err, results) {
 		InstantData.create({date:new Date(),message:"Searching local optimum. "}, function(err, instantData) {});
 		return res.status(200).send('No Content');
 	});
 }
 function globOpt(req,res){
 	var serialPort=require('./../../app.js').serialPort
-	serialPort.write("GOP", function(err, results) {
+	mainApp.newCommandToSend("GOP", function(err, results) {
 		InstantData.create({date:new Date(),message:"Searching global optimum. "}, function(err, instantData) {});
 		return res.status(200).send('No Content');
 	});

@@ -48,6 +48,7 @@ var serialPort = new SerialPort("/dev/ttyUSB0", {
 });
 var InstantData = require('./api/instantData/instantData.model');
 var Powerdata = require('./api/powerdata/powerdata.model');
+var ListCmd = [];
 serialPort.on("open", function () {
 	console.log('Serial Port Open');
 	
@@ -59,7 +60,16 @@ serialPort.on("open", function () {
   //     }, 3000);
 	serialPort.on('data', function(data) {
 		console.log(data)
-		if (data.indexOf('APM:')===0){
+		if (data.indexOf('finished')>0){
+			console.log("Before Shift "+ListCmd)
+			ListCmd.shift()
+			console.log("After Shift "+ListCmd)
+			if (ListCmd.length>0){
+				console.log("finished called Next : "+ListCmd[0])
+				sendCommand(ListCmd[0])
+			}
+		}
+		else if (data.indexOf('APM:')===0){
 			//APM: 12.00V 07.00A
 			var receivedVolt=data.substring(data.indexOf('V')-5,data.indexOf('V'))
 			var receivedAmp=data.substring(data.lastIndexOf('A')-4,data.lastIndexOf('A'))
@@ -76,11 +86,33 @@ serialPort.on("open", function () {
 
 	});
 });
-setInterval(function() {
-	serialPort.write("APM", function(err, results) {
-	    console.log('err ' + err);
-	    console.log('results ' + results);
+function sendCommand(cmd){
+	console.log("sendcommand: "+cmd)
+	serialPort.write(cmd, function(err, results) {
+		    console.log('err ' + err);
+		    console.log('results ' + results);
   	});
+}
+var newCommandToSend = function(cmd,cb){
+	if (ListCmd.length>0){
+		ListCmd.push(cmd)
+		console.log("NewCommandToSend newValue "+ListCmd)
+		cb();
+	}
+	else{
+		console.log("sendcommand call")
+		ListCmd.push(cmd)
+		sendCommand(cmd)
+		cb();
+	}
+}
+setInterval(function() {
+	newCommandToSend("APM", function(err, results) {
+		InstantData.create({date:new Date(),message:"APM called. "}, function(err, instantData) {
+	  });
+	});
 }, 3600000);
 // Expose app
+exports.newCommandToSend=newCommandToSend
+exports.ListCmd=ListCmd
 exports = module.exports = {app:app,serialPort:serialPort};
