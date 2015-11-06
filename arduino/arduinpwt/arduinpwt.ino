@@ -46,7 +46,7 @@ void loop()
     else if( inByte=="LOP"){
       getLocalOptimum();
     }
-    else if( inByte=="BOP"){
+    else if( inByte=="GOP"){
       getGlobalOptimum();
     }
     else if( inByte=="BUP"){
@@ -61,20 +61,22 @@ void loop()
 void getPower(){
 	Serial.println("Activating...");
 	digitalWrite(onSwitch, LOW);
-        delay(2000);
+  delay(2000);
 	Serial.println("Measure Voltage");
+
 	readVolts = analogRead(voltPin);
-	//Serial.println(readVolts);
 	voltageFactor = 1024 / maxVolts;
-  	voltage = readVolts / voltageFactor;
+  voltage = readVolts / voltageFactor;
+  //voltage = random(15,25);
 	Serial.print(voltage);
   Serial.println("V");
   if (voltage>0){
-        delay(2000);
-        Serial.println("Measure Current");
+    delay(2000);
+    Serial.println("Measure Current");
   	digitalWrite(ampSwitch, LOW);
   	readAmps = analogRead(ampPin);
-  	current = readAmps/1000;
+  	current = readAmps/1000*4;
+        //current = random(1,4);
   	Serial.print(message);
    	if (voltage<10){
    		Serial.print("0");
@@ -96,9 +98,11 @@ void getPower(){
     digitalWrite(onSwitch, HIGH);
     digitalWrite(ampSwitch, HIGH);
     delay(500);
+    Serial.println("Movement finished"); 
   }
   else{
   	Serial.println("Voltage measurement equal to zero, check wiring");
+        Serial.println("Movement finished"); 
   	digitalWrite(onSwitch, HIGH);
   } 
 }
@@ -115,11 +119,13 @@ void getLocalOptimum(){
 	readVolts = analogRead(voltPin);
 	voltageFactor = 1024 / maxVolts;
   voltage = readVolts / voltageFactor;
+  //voltage = random(15,25);
   if (voltage>0){
     delay(2000);
   	digitalWrite(ampSwitch, LOW);
   	readAmps = analogRead(ampPin);
-  	current = readAmps;
+  	current = readAmps/1000*4;
+    //current = random(1,4);
     power = voltage * current;
     delay(500);
     digitalWrite(onSwitch, HIGH);
@@ -139,11 +145,13 @@ void getLocalOptimum(){
 	readVolts = analogRead(voltPin);
 	voltageFactor = 1024 / maxVolts;
   voltage = readVolts / voltageFactor;
+  //voltage = random(15,25);
   if (voltage>0){
     delay(2000);
   	digitalWrite(ampSwitch, LOW);
   	readAmps = analogRead(ampPin);
-  	current = readAmps;
+  	current = readAmps/1000*4;
+    //current = random(1,4);
     power = voltage * current;
     delay(500);
     digitalWrite(onSwitch, HIGH);
@@ -168,11 +176,13 @@ void getLocalOptimum(){
 				readVolts = analogRead(voltPin);
 				voltageFactor = 1024 / maxVolts;
 			  voltage = readVolts / voltageFactor;
+        //voltage = random(15,25);
 			  if (voltage>0){
 			    delay(2000);
 			  	digitalWrite(ampSwitch, LOW);
 			  	readAmps = analogRead(ampPin);
-			  	current = readAmps;
+			  	current = readAmps/1000*4;
+          //current = random(1,4);
 			    power = voltage * current;
 			    delay(500);
 			    digitalWrite(onSwitch, HIGH);
@@ -187,9 +197,10 @@ void getLocalOptimum(){
 			  if (power<powerMoins){
 			  	notFind=false;
 			  	servOrient.write(actualPos+10);
-			  	Serial.println("Optimum Find !");
+			  	Serial.println("Optimum Found !");
 			  	Serial.print("Best angle: ");
   				Serial.println(actualPos+10);
+                                Serial.println("Movement finished"); 
 			  }
 			  else{
 			  	powerMoins=power;
@@ -207,11 +218,13 @@ void getLocalOptimum(){
 				readVolts = analogRead(voltPin);
 				voltageFactor = 1024 / maxVolts;
 			  voltage = readVolts / voltageFactor;
+        //voltage = random(15,25);
 			  if (voltage>0){
 			    delay(2000);
 			  	digitalWrite(ampSwitch, LOW);
 			  	readAmps = analogRead(ampPin);
-			  	current = readAmps;
+			  	current = readAmps/1000*4;
+          //current = random(1,4);
 			    power = voltage * current;
 			    delay(500);
 			    digitalWrite(onSwitch, HIGH);
@@ -226,9 +239,10 @@ void getLocalOptimum(){
 			  if (power<powerPlus){
 			  	notFind=false;
 			  	servOrient.write(actualPos-10);
-			  	Serial.println("Optimum Find !");
+			  	Serial.println("Optimum Found !");
 			  	Serial.print("Best angle: ");
   				Serial.println(actualPos-10);
+                                Serial.println("Movement finished"); 
 			  }
 			  else{
 			  	powerPlus=power;
@@ -239,7 +253,7 @@ void getLocalOptimum(){
 void getGlobalOptimum(){
 	int bestPos=0;
 	int powerBestPos=0;
-	for (int pos = 0; pos <= 180; pos += 15) { // goes from 0 degrees to 180 degrees
+	for (int pos = 0; pos <= 90; pos += 10) { // goes from 0 degrees to 180 degrees
     // in steps of 1 degree
     servOrient.write(pos);              // tell servo to go to position in variable 'pos'
     delay(1000);
@@ -248,15 +262,17 @@ void getGlobalOptimum(){
 		readVolts = analogRead(voltPin);
 		voltageFactor = 1024 / maxVolts;
 	  voltage = readVolts / voltageFactor;
+    //voltage = random(15,25);
 	  if (voltage>0){
 	    delay(2000);
 	  	digitalWrite(ampSwitch, LOW);
 	  	readAmps = analogRead(ampPin);
-	  	current = readAmps;
+	  	current = readAmps/1000*4;
+      //current = random(1,4);
 	    power = voltage * current;
-	    Serial.print(current);
+	    Serial.print(power);
 	    Serial.print("mW on position ");
-			Serial.print(pos);
+			Serial.println(pos);
 	    delay(500);
 	    digitalWrite(onSwitch, HIGH);
 	    digitalWrite(ampSwitch, HIGH);
@@ -268,35 +284,42 @@ void getGlobalOptimum(){
 	  }
 	  if (power>powerBestPos){
 	  	bestPos=pos;
-	  	Serial.println("New best position find !");
+      powerBestPos=power;
+	  	Serial.println("New best position found !");
 	  }
   }
   Serial.println("Set position to best");
   Serial.print("Best angle: ");
   Serial.println(bestPos);
-  servOrient.write(bestPos); 
+  servOrient.write(bestPos);
+  Serial.println("Movement finished"); 
 }
 void blindUp(){
   actualPos=servOrient.read();
   if(actualPos>=180){
     Serial.println("Already in max pos");
+    Serial.println("Movement finished");
   }
   else{
       actualPos+=30;
-      servOrient.write(actualPos);
       Serial.print("Set angle: ");
       Serial.println(actualPos);
+      servOrient.write(actualPos);
+      Serial.println("Movement finished");    
   }
 
 }
 void blindDown(){
+  actualPos=servOrient.read();
   if(actualPos<=0){
     Serial.println("Already in min pos");
+    Serial.println("Movement finished");
   }
   else{
       actualPos-=30;
-      servOrient.write(actualPos);
       Serial.print("Set angle: ");
       Serial.println(actualPos);
+      servOrient.write(actualPos);
+      Serial.println("Movement finished");     
   }
 }
