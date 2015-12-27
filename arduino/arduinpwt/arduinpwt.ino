@@ -75,7 +75,7 @@ void getPower(){
     Serial.println("Measure Current");
   	digitalWrite(ampSwitch, LOW);
   	readAmps = analogRead(ampPin);
-  	current = readAmps/1000*4;
+  	current = readAmps*4;
         //current = random(1,4);
   	Serial.print(message);
    	if (voltage<10){
@@ -124,7 +124,7 @@ void getLocalOptimum(){
     delay(2000);
   	digitalWrite(ampSwitch, LOW);
   	readAmps = analogRead(ampPin);
-  	current = readAmps/1000*4;
+  	current = readAmps*4;
     //current = random(1,4);
     power = voltage * current;
     delay(500);
@@ -150,7 +150,7 @@ void getLocalOptimum(){
     delay(2000);
   	digitalWrite(ampSwitch, LOW);
   	readAmps = analogRead(ampPin);
-  	current = readAmps/1000*4;
+  	current = readAmps*4;
     //current = random(1,4);
     power = voltage * current;
     delay(500);
@@ -181,7 +181,7 @@ void getLocalOptimum(){
 			    delay(2000);
 			  	digitalWrite(ampSwitch, LOW);
 			  	readAmps = analogRead(ampPin);
-			  	current = readAmps/1000*4;
+			  	current = readAmps*4;
           //current = random(1,4);
 			    power = voltage * current;
 			    delay(500);
@@ -223,7 +223,7 @@ void getLocalOptimum(){
 			    delay(2000);
 			  	digitalWrite(ampSwitch, LOW);
 			  	readAmps = analogRead(ampPin);
-			  	current = readAmps/1000*4;
+			  	current = readAmps*4;
           //current = random(1,4);
 			    power = voltage * current;
 			    delay(500);
@@ -267,7 +267,7 @@ void getGlobalOptimum(){
 	    delay(2000);
 	  	digitalWrite(ampSwitch, LOW);
 	  	readAmps = analogRead(ampPin);
-	  	current = readAmps/1000*4;
+	  	current = readAmps*4;
       //current = random(1,4);
 	    power = voltage * current;
 	    Serial.print(power);
