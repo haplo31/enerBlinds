@@ -74,6 +74,7 @@ void getPower(){
     delay(2000);
     Serial.println("Measure Current");
   	digitalWrite(ampSwitch, LOW);
+        delay(2000);
   	readAmps = analogRead(ampPin);
   	current = readAmps*2.20;
         //current = random(1,4);
@@ -115,7 +116,7 @@ void getLocalOptimum(){
 	servOrient.write(actualPos+10);
 	delay(1000);
 	digitalWrite(onSwitch, LOW);
-  delay(2000);
+        delay(2000);
 	readVolts = analogRead(voltPin);
 	voltageFactor = 1024 / maxVolts;
   voltage = readVolts / voltageFactor;
@@ -123,6 +124,7 @@ void getLocalOptimum(){
   if (voltage>0){
     delay(2000);
   	digitalWrite(ampSwitch, LOW);
+        delay(2000);
   	readAmps = analogRead(ampPin);
   	current = readAmps*2.20;
     //current = random(1,4);
@@ -149,6 +151,7 @@ void getLocalOptimum(){
   if (voltage>0){
     delay(2000);
   	digitalWrite(ampSwitch, LOW);
+        delay(2000);
   	readAmps = analogRead(ampPin);
   	current = readAmps*2.20;
     //current = random(1,4);
@@ -180,6 +183,7 @@ void getLocalOptimum(){
 			  if (voltage>0){
 			    delay(2000);
 			  	digitalWrite(ampSwitch, LOW);
+                                delay(2000);
 			  	readAmps = analogRead(ampPin);
 			  	current = readAmps*2.20;
           //current = random(1,4);
@@ -222,6 +226,7 @@ void getLocalOptimum(){
 			  if (voltage>0){
 			    delay(2000);
 			  	digitalWrite(ampSwitch, LOW);
+                                delay(2000);
 			  	readAmps = analogRead(ampPin);
 			  	current = readAmps*2.20;
           //current = random(1,4);
@@ -266,6 +271,7 @@ void getGlobalOptimum(){
 	  if (voltage>0){
 	    delay(2000);
 	  	digitalWrite(ampSwitch, LOW);
+                delay(2000);
 	  	readAmps = analogRead(ampPin);
 	  	current = readAmps*2.20;
       //current = random(1,4);
